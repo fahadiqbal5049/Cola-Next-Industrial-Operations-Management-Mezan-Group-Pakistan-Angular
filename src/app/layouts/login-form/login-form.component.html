@@ -1,0 +1,30 @@
+<div class="area-container" >
+
+    <div class="login-container">
+        <!-- <div class="login-detail-container">
+            <p class="title">Production Tracking System</p>
+            <div class="img-area">
+            <img src="../../../assets/images/rm-bg.png" alt="">
+            </div>
+        </div> -->
+        <div class="login-form-container">
+            <div class="login-area">
+                <div class="img-area">
+                    <img src="../../../assets/icons/mezanlogo.png" alt="Mezan Logo">
+                </div>
+                <div class="form-area">
+                    <form [formGroup]="bindingForm">
+                        <input type="email" formControlName="email" placeholder="Email" >
+                        <input type="password" formControlName="password"  placeholder="Password">
+                        <input type="button" class="login-btn" value="Login" (click)="onSubmit($event)" [disabled]="!bindingForm.valid">
+                    </form>
+                    <div class="powered-by">
+                        <p>Powered By</p>
+                        <img src="../../../assets/icons/augit-logo.png" alt="Augit Logo">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

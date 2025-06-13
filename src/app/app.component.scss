@@ -1,0 +1,25 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    z-index: 19999;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.248);
+    /* Ensure it's above other elements */
+    width: 100vw;
+    height: 100vh;
+
+    ::ng-deep .mat-mdc-progress-spinner .mdc-circular-progress .mat-primary .mdc-circular-progress--indeterminate {
+        width: 60px;
+        height: 60px;
+    }
+
+    ::ng-deep .mat-mdc-progress-spinner {
+        --mdc-circular-progress-active-indicator-color: #e30613;
+    }
+}

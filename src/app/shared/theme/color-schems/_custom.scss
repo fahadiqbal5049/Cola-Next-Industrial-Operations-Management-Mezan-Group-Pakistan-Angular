@@ -1,0 +1,57 @@
+@import '../mixin';
+$default-text: 14px;
+$sm-text: 12px;
+$lg-text: 16px;
+// $body-bg:#141420;
+$body-bg: #fff;
+// $body-bg: #eeeeee;
+// $sidebar-bg:#171824;
+// $sidebar-bg: #283593;
+$sidebar-bg: rgb(21, 27, 38);
+// $sidebar-fonts-color:rgb(168, 164, 164);
+$sidebar-fonts-color: #fff;
+// $card-bg:#171824;
+$card-bg: #fff;
+$card-border: transparent;
+$white: #fff;
+// $black: #000;
+$black: #d8d8d8;
+// $border-color: #fff;
+$border-color: #eaeaea;
+$table-border-color: #fff;
+$fonts-color: #000;
+// $fonts-color:#ff7300;
+// $primary: #f09f0a;
+$primary: #e30613;
+//$primary: #ef5350;
+$success: #04ad53;
+$danger: #ff184a;
+$warning: #ff7300;
+$info: #c5cddf;
+body {
+	background: $body-bg;
+}
+
+.bg-default {
+	@include linear-gradient(to top right, lighten($card-bg, 3%), lighten($card-bg, 8%));
+}
+
+.bg-primary {
+	@include linear-gradient(to top right, $primary, #ffda33);
+}
+
+.bg-success {
+	@include linear-gradient(to top right, $success, #1dffc7);
+}
+
+.bg-danger {
+	@include linear-gradient(to top right, $danger, #fc85a2);
+}
+
+.bg-warning {
+	@include linear-gradient(to top right, $warning, #fce16a);
+}
+
+.bg-info {
+	@include linear-gradient(to top right, $info, #04f7fb);
+}

@@ -1,0 +1,15 @@
+<div class="pages-wrap">
+
+    <div class="pages-body" >
+        <!-- <app-sidebar #sideBar></app-sidebar> -->
+        <app-sidbar #sideBar></app-sidbar>
+
+        <div class="pages-content">
+            <app-topbar (myEvent)="sideBar._sidebarToggle()"></app-topbar>
+            <!-- <app-pages-top (myEvent)="sideBar._sidebarToggle()"></app-pages-top> -->
+            <!-- <app-content-top></app-content-top> -->
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+</div>

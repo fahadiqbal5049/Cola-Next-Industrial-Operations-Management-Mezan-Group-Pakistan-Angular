@@ -1,0 +1,10 @@
+
+  <div  style="width: 280px;" class="pages-sider" [ngClass]="{'side-collapsed':!sidebarToggle}">
+    <div class="avatar-wrap" style="background-color: #bd262b;">
+      <div class="avatar">
+            <img class="logo" src="{{avatarImgSrc}}" alt="avatar" style="width: 270px; height: 55px;">
+      </div>
+    </div>
+    <span class="sidebar-top-line"></span>
+    <app-menu  style="width: 300px; " [menuInfo]="menuInfo"></app-menu>
+</div>

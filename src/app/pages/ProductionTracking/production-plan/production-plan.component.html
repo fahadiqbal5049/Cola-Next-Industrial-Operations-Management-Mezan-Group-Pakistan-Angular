@@ -1,0 +1,395 @@
+<div class="container-area">
+    <div class="body-area" [ngSwitch]="currentTab">
+        <div class="nav d-flex tabs-area">
+            <div class="d-flex tabs">
+                <p class="nav-heading px-2" (click)="onTabChange('ERP')"
+                    [ngClass]="currentTab=='ERP' ? 'active-tab' : ''">
+                    ERP Plan</p>
+                <p class="nav-heading px-2" (click)="onTabChange('Generate')"
+                    [ngClass]="currentTab=='Generate' ? 'active-tab' : ''">
+                    Generate QR Code</p>
+                <p class="nav-heading px-2" (click)="onTabChange('Planned')"
+                    [ngClass]="currentTab=='Planned' ? 'active-tab' : ''">
+                    Planned Production</p>
+                <p class="nav-heading px-2" (click)="onTabChange('Produced')"
+                    [ngClass]="currentTab=='Produced' ? 'active-tab' : ''">
+                    Produced Bundles</p>
+                <!-- <p class="nav-heading px-2" (click)="onTabChange('Print')"
+                    [ngClass]="currentTab=='Print' ? 'active-tab' : ''">
+                    Print QR Codes</p> -->
+                <p class="nav-heading px-2" (click)="onTabChange('Scanned')"
+                    [ngClass]="currentTab=='Scanned' ? 'active-tab' : ''">
+                    Scanned Bundles</p>
+                <p class="nav-heading px-2" (click)="onTabChange('Assign')"
+                    [ngClass]="currentTab=='Assign' ? 'active-tab' : ''">
+                    Assign Location</p>
+            </div>
+
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'ERP'">
+            <div class="dx-card grid-card">
+                <dx-data-grid id="gridContainer" [dataSource]="erpPlan" [remoteOperations]="false" [columnWidth]="130"
+                    [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                    (onExporting)="onExporting($event)" (onCellClick)="onJobNumberClick($event)">
+
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+                        [showNavigationButtons]="true"></dxo-pager>
+                    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                    <dxo-selection mode="multiple"></dxo-selection>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                    <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+                    <dxi-column dataField="PLANT_CODE" caption="Plant Code"></dxi-column>
+                    <dxi-column dataField="ITEM_CODE" caption="Item Code"></dxi-column>
+                    <dxi-column dataField="JOB_NUMBER" caption="Job Number"></dxi-column>
+                    <dxi-column dataField="ASSEMBLY_CODE" caption="Assembly Code"></dxi-column>
+                    <dxi-column dataField="SUB_CODE" caption="Sub Code"></dxi-column>
+                    <dxi-column dataField="JOB_DESCRIPTION" caption="Description"></dxi-column>
+                    <dxi-column dataField="CUSTOMER_CODE" caption="Customer"></dxi-column>
+                    <dxi-column dataField="QUANTITY" caption="Total Quantity" alignment="left"></dxi-column>
+                    <dxi-column dataField="PRODUCED_QUANTITY" caption="Produced Quantity" alignment="left"></dxi-column>
+                    <dxi-column dataField="REMAINING_QUANTITY" caption="Remaining Quantity"
+                        alignment="left"></dxi-column>
+                    <dxi-column dataField="SIZE" caption="Size"></dxi-column>
+                    <dxi-column dataField="CREATED_BY" caption="Created By"></dxi-column>
+                    <dxi-column dataField="CREATED_DATE" caption="Created Date"></dxi-column>
+
+                    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+                </dx-data-grid>
+            </div>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Generate'">
+            <div class="body-area" style="box-shadow: none;">
+                <div class="nav d-flex">
+                    <p class="nav-heading">GENERATE PLAN</p>
+                    <div class="tabs-area">
+                        <!-- <div class="tabs" [ngStyle]="{'color': currentTab=='m' ? 'red' : 'initial'}">
+                    Machine W/O
+                  </div> -->
+                    </div>
+                    <!-- <img class="nav-img" src="../../../../assets/icons/company.png" alt="logo"> (keypress)="handleKeyboardEvent($event)"-->
+                    <button class="btn-cstm" (click)="reset()">Reset Filter</button>
+                </div>
+                <form [formGroup]="bindingForm" autocomplete="on">
+
+                    <div class="grid-container ">
+
+                        <div class="grid-item item-center">
+                            <div class="d-flex cstm-left-grid-item">
+                                <div class="d-flex input-group-area">
+
+                                    <div class="input-group input1">
+                                        <label for="">Item Code</label>
+                                        <ng-select class="input-style" [items]="erpPlan"
+                                            [placeholder]="bindingForm.value.ITEM_CODE?'':'Select Item Code'"
+                                            bindLabel="ITEM_CODE" bindValue="ITEM_CODE" formControlName="ITEM_CODE"
+                                            [searchable]="true" [(ngModel)]="bindingForm.value.ITEM_CODE"
+                                            (change)="onSelectErpPlan($event)">
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="input-group input1">
+                                        <label for="">Job Number</label>
+                                        <ng-select class="input-style" [items]="erpPlan"
+                                            [placeholder]="bindingForm.value.JOB_NUMBER?'':'Select Job Number'"
+                                            bindLabel="JOB_NUMBER" bindValue="JOB_NUMBER" formControlName="JOB_NUMBER"
+                                            [searchable]="true" [(ngModel)]="bindingForm.value.JOB_NUMBER"
+                                            (change)="onSelectErpPlan($event)">
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div class="input-group ">
+                                    <label for="">Assembly Code</label>
+                                    <ng-select class="input-style" [items]="erpPlan"
+                                        [placeholder]="bindingForm.value.ASSEMBLY_CODE?'':'Select Assembly Code'"
+                                        bindLabel="ASSEMBLY_CODE" bindValue="ASSEMBLY_CODE"
+                                        formControlName="ASSEMBLY_CODE" [searchable]="true"
+                                        [(ngModel)]="bindingForm.value.ASSEMBLY_CODE"
+                                        (change)="onSelectErpPlan($event)">
+                                    </ng-select>
+                                </div>
+
+
+                                <div class="d-flex input-group-area">
+
+                                    <div class="input-group input1">
+                                        <label for="">Sub Code</label>
+                                        <ng-select class="input-style" [items]="erpPlan"
+                                            [placeholder]="bindingForm.value.SUB_CODE?'':'Select Sub Code'"
+                                            bindLabel="SUB_CODE" bindValue="SUB_CODE" formControlName="SUB_CODE"
+                                            [searchable]="true" [(ngModel)]="bindingForm.value.SUB_CODE"
+                                            (change)="onSelectErpPlan($event)">
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="input-group input1">
+                                        <label for="Customer">Customer</label>
+                                        <ng-select class="input-style" [items]="erpPlan"
+                                            [placeholder]="bindingForm.value.CUSTOMER?'':'Select Customer'"
+                                            bindLabel="CUSTOMER_CODE" bindValue="CUSTOMER_CODE"
+                                            formControlName="CUSTOMER" [searchable]="true"
+                                            [(ngModel)]="bindingForm.value.CUSTOMER" (change)="onSelectErpPlan($event)">
+                                        </ng-select>
+                                    </div>
+
+                                </div>
+                                <div class="input-group">
+                                    <label for="">Description</label>
+                                    <ng-select class="input-style" [items]="erpPlan" bindLabel="JOB_DESCRIPTION"
+                                        bindValue="JOB_DESCRIPTION"
+                                        [placeholder]="bindingForm.value.DESCRIPTION?'':'Select Description'"
+                                        formControlName="DESCRIPTION" [searchable]="true"
+                                        [(ngModel)]="bindingForm.value.DESCRIPTION" (change)="onSelectErpPlan($event)">
+                                    </ng-select>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="grid-item cstm-grid-item">
+                            <div class="d-flex cstm-grid-area">
+                                <div class="nested-grid-item">
+
+                                    <div class="d-flex input-group-area">
+                                        <div class="input-group input1">
+                                            <label for="">Quantity</label>
+                                            <input class="input-style" type="number"
+                                                [(ngModel)]="bindingForm.value.QUANTITY" formControlName="QUANTITY"
+                                                [placeholder]="bindingForm.value.QUANTITY?'':'Enter Quantity '"
+                                                [max]="maxQuantity">
+                                        </div>
+
+                                        <div class="input-group input1">
+                                            <label for="">Max Quantity</label>
+                                            <input class="input-style" readonly [value]="maxQuantity">
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="">Size</label>
+                                        <input class="input-style" type="text"
+                                            [placeholder]="bindingForm.value.SIZE?'':'Enter Size'"
+                                            [(ngModel)]="bindingForm.value.SIZE" formControlName="SIZE">
+                                    </div>
+
+                                </div>
+
+                                <button class="grid-item btn" (click)="onSubmitPlan()"
+                                    [disabled]="!bindingForm.valid">Submit</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Planned'">
+            <dx-data-grid id="gridContainer" [dataSource]="dataSource" [remoteOperations]="false" [columnWidth]="130"
+                [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                (onExporting)="onExporting($event)" (onCellClick)="onPrintableJob($event)">
+
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+                    [showNavigationButtons]="true"></dxo-pager>
+                <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-group-panel [visible]="false"></dxo-group-panel>
+                <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+                <dxi-column dataField="ITEM_CODE" caption="Item Code"></dxi-column>
+                <dxi-column dataField="JOB_NUMBER" caption="Job Number"></dxi-column>
+                <dxi-column dataField="ASSEMBLY_CODE" caption="Assembly Code"></dxi-column>
+                <dxi-column dataField="SUB_CODE" caption="Sub Code"></dxi-column>
+                <dxi-column dataField="DESCRIPTION" caption="Description"></dxi-column>
+                <dxi-column dataField="CUSTOMER" caption="Customer"></dxi-column>
+                <dxi-column dataField="QUANTITY" caption="Quantity"></dxi-column>
+                <dxi-column dataField="SIZE" caption="Size"></dxi-column>
+                <dxi-column dataField="TOTAL_BUNDLES" caption="Total Bundles"></dxi-column>
+
+                <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+            </dx-data-grid>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Produced'">
+            <dx-data-grid id="gridContainer" [dataSource]="producedBundles" [remoteOperations]="false"
+                [allowColumnReordering]="true" [allowColumnResizing]="true" [columnWidth]="130"
+                [rowAlternationEnabled]="true" [showBorders]="true" (onExporting)="onExporting($event)"
+                (onCellClick)="onPrintableJob($event)">
+
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+                    [showNavigationButtons]="true"></dxo-pager>
+                <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+                <dxi-column type="buttons" dataField="QR_CODE" alignment="left" caption="QR Code" cellTemplate="test">
+                </dxi-column>
+
+                <div *dxTemplate="let tag of 'test'">
+                    <img [src]="tag.data.QR_CODE" alt="test" style="height: 96px; width: 96px;">
+                </div>
+                <dxi-column dataField="QR_CODE_NUMBER" caption="QR Code Number"></dxi-column>
+                <dxi-column dataField="ITEM_CODE" caption="Item Code" [width]="150"></dxi-column>
+                <dxi-column dataField="JOB_NUMBER" caption="Job Number" [width]="150"></dxi-column>
+                <dxi-column dataField="ASSEMBLY_CODE" caption="Assembly Code" [width]="150"></dxi-column>
+                <dxi-column dataField="SUB_CODE" caption="Sub Code" [width]="150"></dxi-column>
+                <dxi-column dataField="DESCRIPTION" caption="Description" [width]="200"></dxi-column>
+                <dxi-column dataField="CUSTOMER" caption="Customer" [width]="150"></dxi-column>
+                <dxi-column dataField="PRODUCTION_QUANTITY" caption="Quantity"></dxi-column>
+                <dxi-column dataField="SIZE" caption="Size"></dxi-column>
+
+                <dxi-column dataField="STATUS" caption="Status"></dxi-column>
+
+                <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+            </dx-data-grid>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Print'">
+            <div class="body-area" style="box-shadow: none;padding: 0px;">
+                <div class="nav d-flex">
+                    <p class="nav-heading">PRINT QR CODES</p>
+                    <button class="btn-cstm" (click)="printCard()">Print</button>
+                </div>
+
+                <div class="dx-card grid-card print-card">
+                    <div class="card-dimension" *ngFor="let Item of producedBundles">
+                        <div class="qr-code-area">
+                            <img [src]="Item.QR_CODE" alt="QR Code" class="qr-code">
+                            <p>{{Item.QR_CODE_NUMBER}}</p>
+                        </div>
+                        <div class="qr-detail" style="max-height: 100%; overflow: hidden; text-overflow: ellipsis;">
+                            <p class="detail-title">{{'AUGIT Technologies'}}</p>
+                            <br>
+                            <p class="detail-value">{{'8A, PCSIR-1, Canal Road, Lahore'}}</p>
+                            <br>
+                            <p class="detail-value">{{'info@augit.tech'}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Scanned'">
+            <dx-data-grid id="gridContainer" [dataSource]="scannedBundles" [remoteOperations]="false"
+                [allowColumnReordering]="true" [allowColumnResizing]="true" [columnWidth]="130"
+                [rowAlternationEnabled]="true" [showBorders]="true" (onExporting)="onExporting($event)"
+                (onSelectionChanged)="onSelect($event)">
+
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+                    [showNavigationButtons]="true"></dxo-pager>
+                <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+                <dxo-selection mode="multiple"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+                <!-- <dxi-column dataField="QR_CODE" alignment="left" caption="QR Code" cellTemplate="test">
+                </dxi-column>
+
+                <div *dxTemplate="let tag of 'test'">
+                    <img [src]="tag.data.QR_CODE" alt="test" style="height: 96px; width: 96px;">
+                </div> -->
+                <dxi-column dataField="QR_CODE_NUMBER" caption="QR Code Number"></dxi-column>
+                <dxi-column dataField="ITEM_CODE" caption="Item Code" [width]="150"></dxi-column>
+                <dxi-column dataField="JOB_NUMBER" caption="Job Number" [width]="150"></dxi-column>
+                <dxi-column dataField="ASSEMBLY_CODE" caption="Assembly Code" [width]="150"></dxi-column>
+                <dxi-column dataField="SUB_CODE" caption="Sub Code" [width]="150"></dxi-column>
+                <dxi-column dataField="DESCRIPTION" caption="Description" [width]="200"></dxi-column>
+                <dxi-column dataField="CUSTOMER" caption="Customer" [width]="150"></dxi-column>
+                <dxi-column dataField="PRODUCTION_QUANTITY" caption="Quantity"></dxi-column>
+                <dxi-column dataField="SIZE" caption="Size"></dxi-column>
+                <dxi-column dataField="LOCATION_NAME" caption="Location"></dxi-column>
+                <dxi-column dataField="SUB_LOCATION_NAME" caption="Sub Location"></dxi-column>
+                <dxi-column dataField="LOCATOR_NAME" caption="Locator"></dxi-column>
+                <dxi-column dataField="STATUS" caption="Status"></dxi-column>
+                <dxi-column dataField="USER_DETAIL" caption="User Detail"></dxi-column>
+
+                <!-- <dxi-column type="buttons" dataField="SEQ_ID" alignment="center" caption="Actions"
+                cellTemplate="actionsTemplate" [fixed]="true"></dxi-column>
+
+            <div *dxTemplate="let tag of 'actionsTemplate'">
+                <dx-button hint="Edit" icon="edit" id="editButton"
+                    (onClick)="visibleAddPopup(tag.data)"></dx-button> 
+            </div> -->
+                <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+            </dx-data-grid>
+        </div>
+
+        <div class="dx-card grid-card" *ngSwitchCase="'Assign'">
+            <div class="body-area" style="box-shadow: none;">
+                <div class="nav d-flex">
+                    <p class="nav-heading">LOCATION</p>
+                </div>
+
+                <form [formGroup]="locationForm" autocomplete="on">
+
+                    <div class="grid-item item-center">
+                        <div class="d-flex cstm-left-grid-item">
+
+                            <div class="input-group">
+                                <label for="">Location Name</label>
+                                <ng-select class="input-style" [items]="Locations"
+                                    [placeholder]="locationForm.value.LOCATION_NAME?'':'Select Location'"
+                                    bindLabel="LOCATION_NAME" bindValue="LOCATION_NAME" formControlName="LOCATION_NAME"
+                                    [searchable]="true" [(ngModel)]="locationForm.value.LOCATION_NAME"
+                                    (change)="onSelectLocation($event)">
+                                </ng-select>
+                            </div>
+                            <div class="input-group">
+                                <label for="">Sub Location Name</label>
+                                <ng-select class="input-style" [items]="FilteredSubLocations"
+                                    [placeholder]="locationForm.value.SUB_LOCATION_NAME?'':'Select Sub Location'"
+                                    bindLabel="SUB_LOCATION_NAME" bindValue="SUB_LOCATION_NAME"
+                                    formControlName="SUB_LOCATION_NAME" [searchable]="true"
+                                    [(ngModel)]="locationForm.value.SUB_LOCATION_NAME"
+                                    (change)="onSelectSubLocation($event)">
+                                </ng-select>
+                            </div>
+                            <div class="input-group">
+                                <label for="">Locator</label>
+                                <ng-select class="input-style" [items]="FilteredLocators" [multiple]="true"
+                                    [placeholder]="locationForm.value.LOCATOR_NAME?'':'Select Locator'"
+                                    bindLabel="LOCATOR_NAME" bindValue="LOCATOR_NAME" formControlName="LOCATOR_NAME"
+                                    [searchable]="true" [(ngModel)]="locationForm.value.LOCATOR_NAME"
+                                    (change)="onMultiLocators($event)">
+                                </ng-select>
+                            </div>
+
+                            <div class="d-flex">
+                                <div class="input-group">
+                                    <label for="">Selected Bundeles</label>
+                                    <input class="input-style" readonly [value]="selectedBundeles">
+
+                                </div>
+                                <div class="input-group">
+                                    <label for="">Locator Space</label>
+                                    <input class="input-style" readonly [value]="locatorCapacity">
+
+                                </div>
+                            </div>
+                            <button class="grid-item btn" (click)="onAddLocation($event)"
+                                [disabled]="!locationForm.valid">Submit</button>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div *ngIf="showSidebar == true">
+    <app-sidbar-layout></app-sidbar-layout>
+</div>
+<div *ngIf="showSidebar == false">
+    <router-outlet></router-outlet>
+</div>
+<div *ngIf="loading | async" class="loader">
+    <mat-spinner style="width: 60px; height: 60px;"></mat-spinner>
+</div>

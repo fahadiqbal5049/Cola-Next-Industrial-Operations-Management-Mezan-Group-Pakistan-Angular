@@ -1,0 +1,220 @@
+<div class="container-area">
+  <div class="body-area">
+    <div class="nav d-flex">
+      <p class="nav-heading">Users</p>
+      <button class="btn-cstm" (click)="openAddForm()">Add New</button>
+    </div>
+
+    <div class="dx-card grid-card">
+      <dx-data-grid id="gridContainer" [dataSource]="dataSource" [remoteOperations]="false" [columnWidth]=""
+        [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        (onExporting)="onExporting($event)">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+          [showNavigationButtons]="true"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="EMPLOYEE_NAME" caption="Employee Name"></dxi-column>
+        <dxi-column dataField="GROUP_NAME" caption="Security Group"></dxi-column>
+        <dxi-column dataField="USER_NAME" caption="User Name"></dxi-column>
+        <dxi-column dataField="USER_EMAIL" caption="User Email"></dxi-column>
+        <dxi-column dataField="STATUS" caption="Status"></dxi-column>
+
+        <dxi-column type="buttons" dataField="SEQ_ID" alignment="center" caption="Actions"
+          cellTemplate="actionsTemplate">
+        </dxi-column>
+
+        <div *dxTemplate="let tag of 'actionsTemplate'">
+          <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+          <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+
+        <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+    </div>
+
+    <dx-popup title="Add User" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+    [(visible)]="addPopUp">
+
+    <div *dxTemplate="let data of 'content'">
+      <form class="type-form" (submit)="onSubmit($event)">
+        <dx-form [formData]="formData" [disabled]="loading" [colCount]="2">
+
+          <dxi-item dataField="AUG_SECURITY_GROUP_SEQ_ID" editorType="dxNumberBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: ''}">
+            <dxi-validation-rule type="required" message="AUG SEQ ID is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="EMPLOYEE_NAME" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: ''}">
+            <dxi-validation-rule type="required" message="Employee Name is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="USER_NAME" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: ''}">
+            <dxi-validation-rule type="required" message="User Name is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="USER_EMAIL" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '', mode: 'email'}">
+            <dxi-validation-rule type="required" message="User Email is required"></dxi-validation-rule>
+            <dxi-validation-rule type="email" message="Email format"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="PASSWORD" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '', mode: 'password' }">
+            <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="STATUS" editorType="dxSelectBox"
+            [editorOptions]="{
+              items: ['Active', 'Inactive'],
+              stylingMode: 'outlined', labelMode: 'floating',
+              placeholder: ''
+            }">
+            <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="DESIGNATION" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: ''}">
+            <dxi-validation-rule type="required" message="Designation is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="PASSWORD_HASH" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '', mode: 'password', disabled: true }">
+            <!-- <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule> -->
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="PASSWORD_SALT" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '', mode: 'password', disabled: true }">
+            <!-- <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule> -->
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+          [editorOptions]="{
+            items: [1, 0],
+            stylingMode: 'outlined', labelMode: 'floating',
+            placeholder: ''
+          }">
+          <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+          <dxi-item dataField="GROUP_NAME" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' , disabled: true}">
+            <!-- <dxi-validation-rule type="required" message="Group Name is required"></dxi-validation-rule> -->
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item dataField="GROUP_DESCRIPTION" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' , disabled: true}">
+            <!-- <dxi-validation-rule type="required" message="Group Description is required"></dxi-validation-rule> -->
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <dxi-item itemType="button" [colSpan]="2">
+            <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+            </dxo-button-options>
+          </dxi-item>
+
+        </dx-form>
+      </form>
+    </div>
+  </dx-popup>
+
+  <dx-popup title="Edit User" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+  [(visible)]="editPopUp">
+
+  <div *dxTemplate="let data of 'content'">
+    <form class="type-form" (submit)="onUpdate($event)">
+      <dx-form [formData]="formData" [disabled]="loading" [colCount]="2">
+
+        <dxi-item dataField="SEQ_ID" editorType="dxNumberBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+          <dxi-validation-rule type="required" message="SEQ ID is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="AUG_SECURITY_GROUP_SEQ_ID" editorType="dxNumberBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+          <dxi-validation-rule type="required" message="AUG SEQ ID is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="EMPLOYEE_NAME" editorType="dxTextBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+          <dxi-validation-rule type="required" message="Employee Name is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="USER_NAME" editorType="dxTextBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+          <dxi-validation-rule type="required" message="User Name is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="STATUS" editorType="dxSelectBox"
+          [editorOptions]="{
+            items: ['Active', 'Inactive'],
+            stylingMode: 'outlined', labelMode: 'floating',
+            placeholder: ''
+          }">
+          <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="USER_EMAIL" editorType="dxTextBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '', mode: 'email' }">
+          <dxi-validation-rule type="required" message="User Email is required"></dxi-validation-rule>
+          <dxi-validation-rule type="email" message="Email format"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="DESIGNATION" editorType="dxTextBox"
+          [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+          <dxi-validation-rule type="required" message="Designation is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+          [editorOptions]="{
+            items: [1, 0],
+            stylingMode: 'outlined', labelMode: 'floating',
+            placeholder: ''
+          }">
+          <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+
+
+        <dxi-item itemType="button" [colSpan]="2">
+          <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+          </dxo-button-options>
+        </dxi-item>
+
+      </dx-form>
+    </form>
+  </div>
+</dx-popup>
+  </div>
+</div>

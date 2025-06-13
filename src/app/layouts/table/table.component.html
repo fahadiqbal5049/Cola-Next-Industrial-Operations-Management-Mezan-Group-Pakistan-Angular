@@ -1,0 +1,209 @@
+<div class="container-area">
+    <div class="body-area">
+        <div class="nav d-flex">
+            <p class="nav-heading">{{obj.heading}}</p>
+            <button class="btn-cstm" (click)="openAddForm()">Add New</button>
+        </div>
+
+<!-- <h2 class="content-block">{{obj.heading}}
+    <dx-button id="saveButton" icon="add" text="Add" (onClick)="openAddForm()">
+    </dx-button>
+
+</h2> -->
+
+<div class="dx-card grid-card">
+    <!-- <dx-data-grid id="gridContainer" [dataSource]="obj.dataSource" [remoteOperations]="false" [allowColumnReordering]="true"
+        [rowAlternationEnabled]="true" [showBorders]="true">
+        >
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+            [showNavigationButtons]="true"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="Name" caption="Shift Name"></dxi-column>
+        <dxi-column dataField="Description" caption="Description"></dxi-column>
+        <dxi-column dataField="StartTime" caption="Start Time"></dxi-column>
+        <dxi-column dataField="StopTime" caption="Stop Time"></dxi-column>
+        <dxi-column dataField="Duration" caption="Duration"></dxi-column>
+
+        <dxi-column type="buttons" dataField="SEQ_ID" caption="Actions" cellTemplate="actionsTemplate" fixed="true"
+            width="100">
+        </dxi-column>
+
+        <div *dxTemplate="let tag of 'actionsTemplate'">
+            <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+            <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+
+        <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+    </dx-data-grid> -->
+
+    <dx-data-grid id="gridContainer" [dataSource]="obj.dataSource" [remoteOperations]="false" [allowColumnReordering]="true"
+    [rowAlternationEnabled]="true" [showBorders]="true" 
+    (onExporting)="onExporting($event)">
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+        [showNavigationButtons]="true"></dxo-pager>
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="false"></dxo-group-panel>
+    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+    <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+    <!-- Automatically generated or manually provided columns -->
+    <dxi-column *ngFor="let col of (obj.columns.length > 0 ? obj.columns : generatedColumns)" 
+                [dataField]="col.dataField" 
+                [caption]="col.caption">
+    </dxi-column>
+
+    <dxi-column type="buttons" caption="Actions" cellTemplate="actionsTemplate" fixed="true" width="100">
+        <div *dxTemplate="let tag of 'actionsTemplate'" alignment="center">
+            <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+            <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+    </dxi-column>
+
+    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+</dx-data-grid>
+</div>
+
+
+<dx-popup [title]="'Add '+obj.heading" height="auto" [maxWidth]="500" [showCloseButton]="true" [(visible)]="addPopUp">
+
+    <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onSubmit($event)">
+            <dx-form [formData]="formData" [disabled]="loading">
+
+                <dxi-item *ngFor="let item of (obj.columns.length > 0 ? obj.columns : generatedColumns); let i=index" [dataField]="item.dataField" [editorType]="item.editorType"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: item.caption,type:item.type}">
+                    <dxi-validation-rule type="required" [message]="item.caption+'is required'"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <!-- <dxi-item dataField="Description" editorType="dxTextBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Description' }">
+                    <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="StartTime" editorType="dxDateBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Start Time',type:'datetime'}">
+                    <dxi-validation-rule type="required" message="Start Time is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="StopTime" editorType="dxDateBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Stop Time' ,type:'datetime'}">
+                    <dxi-validation-rule type="required" message="Stop Time is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item itemType="button">
+                    <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+                    </dxo-button-options>
+                </dxi-item> -->
+
+                <dxi-item itemType="button">
+                    <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+                    </dxo-button-options>
+                </dxi-item>
+            </dx-form>
+        </form>
+        <!-- <form #bindingform="ngForm" (ngSubmit)="onSubmit(bindingform)">
+            <input type="hidden" name="SeqId" #SeqId="ngModel" [(ngModel)]="department.SeqId">
+            <div style="margin-bottom: 20px;">
+                <dx-text-box label = "Department Name" name="DepartmentName" [(ngModel)]="department.DepartmentName">
+                    <dx-validator>
+                      <dxi-validation-rule
+                        type="required"
+                        message="Department Name is required"
+                      ></dxi-validation-rule>
+                    </dx-validator>
+                  </dx-text-box>
+            </div>
+
+                <div style="margin-bottom: 20px;">
+                    <dx-text-box label = "Description" name="Description" [(ngModel)]="department.Description">
+                    <dx-validator>
+                      <dxi-validation-rule
+                        type="required"
+                        message="Description is required"
+                      ></dxi-validation-rule>
+                    </dx-validator>
+                  </dx-text-box>
+                 </div>
+                 <div style="margin-top: 7px; float: right">
+
+                    <dx-button style="margin-right: 7px;"
+                    id="reset"
+                    text="Reset"
+                    (onClick)="resetForm(bindingform)"
+                    >
+                  </dx-button>
+                    <dx-button style="margin-right: 7px;"
+                    id="button"
+                    text="Submit"
+                    [useSubmitBehavior]="true"
+                  >
+                  </dx-button>
+
+                 </div>
+</form>   -->
+
+    </div>
+</dx-popup>
+
+<dx-popup [title]="'Edit '+obj.heading" height="auto" [maxWidth]="500" [showCloseButton]="true" [(visible)]="editPopUp">
+
+    <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onUpdate($event)">
+            <dx-form [formData]="formData" [disabled]="loading">
+                <dxi-item *ngFor="let item of (obj.columns.length > 0 ? obj.columns : generatedColumns); let i=index" [dataField]="item.dataField" [editorType]="item.editorType"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: item.caption,type:item.type}">
+                    <dxi-validation-rule type="required" [message]="item.caption+'is required'"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+                <!-- <dxi-item dataField="Name" editorType="dxTextBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Shift Name'}">
+                    <dxi-validation-rule type="required" message="Shift Name is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="Description" editorType="dxTextBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Description' }">
+                    <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="StartTime" editorType="dxDateBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Start Time',type:'datetime'}">
+                    <dxi-validation-rule type="required" message="Start Time is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="StopTime" editorType="dxDateBox"
+                    [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Stop Time' ,type:'datetime'}">
+                    <dxi-validation-rule type="required" message="Stop Time is required"></dxi-validation-rule>
+                    <dxo-label [visible]="false"></dxo-label>
+                </dxi-item>
+
+                <dxi-item itemType="button">
+                    <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+                    </dxo-button-options>
+                </dxi-item>
+ -->
+ <dxi-item itemType="button">
+    <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+    </dxo-button-options>
+</dxi-item>
+            </dx-form>
+        </form>
+
+    </div>
+</dx-popup>
+
+</div></div>

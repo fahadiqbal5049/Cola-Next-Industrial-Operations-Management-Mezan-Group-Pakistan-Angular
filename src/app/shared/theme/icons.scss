@@ -1,0 +1,227 @@
+::ng-deep #saveButton {
+    float: right;
+    background-color: #f44336;
+    color: white;
+
+    .dx-icon {
+        color: white !important;
+    }
+}
+
+::ng-deep #editButtons {
+  float: right;
+  color: #fca400 !important;
+  margin-right: 10px;
+}
+::ng-deep #viewButton {
+  float: left;
+  color: #36e1f4 !important;
+  margin-left: 10px;
+}
+::ng-deep #viewButton .dx-icon{
+  color: #36e1f4 !important;
+}
+::ng-deep #addButton .dx-icon{
+  color: #f44336 !important;
+}
+
+::ng-deep #saveButtons {
+  float: left;
+  background-color: #f44336;
+  color: white;
+  margin-top: 200px;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+
+::ng-deep #addFileButton {
+    float: right;
+    background-color: #03a9f4;
+    color: white;
+    margin-right: 10px;
+
+    .dx-icon {
+        color: white !important;
+    }
+}
+
+::ng-deep #PrintButton {
+  float: right;
+  background-color: #6b69bb;
+  color: white;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+//popup Button Css
+// Mainte Button
+::ng-deep #MPrntButton {
+  // float: right;
+  //background-color: #4CAF50;
+  background-color: MediumSeaGreen;
+  color: white;
+  margin-right: 10px;
+  border-radius: 13px;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+// check List File Button
+::ng-deep #CFPrntButton {
+  // float: right;
+  background-color: DodgerBlue;
+  color: white;
+  margin-right: 10px;
+  border-radius: 13px;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+// check List Button
+::ng-deep #CPrntButton {
+  // float: right;
+  background-color: #f44336;
+  color: white;
+  margin-right: 10px;
+  border-radius: 13px;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+// Task List Button
+::ng-deep #TPrntButton {
+  // float: right;
+  background-color: SlateBlue;
+  color: white;
+  margin-right: 10px;
+  border-radius: 13px;
+
+  .dx-icon {
+      color: white !important;
+  }
+}
+
+::ng-deep #AButton {
+
+  // background-color: #f44336;
+  // color: white;
+
+  text-align: center;
+
+
+
+}
+
+
+
+::ng-deep #editButton {
+    background-color: transparent;
+}
+
+::ng-deep #deleteButton {
+    background-color: transparent;
+}
+
+::ng-deep #editButton .dx-icon {
+    // color: #03a9f4 !important;
+    color: #fca400 !important;
+}
+
+::ng-deep #editButton2 .dx-icon {
+  // color: #03a9f4 !important;
+  color: #eb6a60 !important;
+}
+
+::ng-deep #editButton3 .dx-icon {
+  // color: #03a9f4 !important;
+  color: #41bdea !important;
+
+}
+
+::ng-deep #deleteButton .dx-icon {
+    color: #f44336 !important;
+}
+
+::ng-deep #uploadButton .dx-icon {
+  color: #1fa6d7 !important;
+}
+
+::ng-deep #editButton .dx-button-content{
+    padding: 0 !important;
+}
+
+::ng-deep #deleteButton .dx-button-content{
+    padding: 0 !important;
+}
+
+::ng-deep .dx-command-edit{
+    padding: 0 !important;
+}
+
+::ng-deep .dx-fileuploader-wrapper{
+    border: 1px solid #d3d3d3;
+}
+
+.link {
+  margin-top: 0;
+  color: #03a9f4;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.grid-card{
+  width: 95%;
+  margin-left: 30px;
+  padding: 8px;
+}
+
+.grid-card-search{
+  width: 99%;
+   margin-left: 10px;
+ //  margin-right: 15px;
+  // padding: 8px;
+}
+
+.grid-cards{
+  width: 98%;
+  margin-left: 13px;
+  //margin-right: 10px;
+ // padding: 5px;
+}
+
+.grid-card-searchs{
+  width: 99%;
+   margin-left: 10px;
+ //  margin-right: 15px;
+  // padding: 8px;
+}
+
+::ng-deep .dx-icon-demand {
+  background-image: url('../../../assets/icons/demand.png');
+  background-repeat: 22px 0px;
+  background-position: no-repeat !important;
+}
+
+::ng-deep .dx-icon-completed {
+  background-image: url('../../../assets/icons/completed.png');
+  background-repeat: 22px 0px;
+  background-position: no-repeat !important;
+}
+
+::ng-deep .dx-icon-reschedule {
+  background-image: url('../../../assets/icons/reschedule.png');
+  background-repeat: 22px 0px;
+  background-position: no-repeat !important;
+}
+
+::ng-deep .dx-icon-assign {
+  background-image: url('../../../assets/icons/assign.png');
+  background-repeat: 22px 0px;
+  background-position: no-repeat !important;
+}

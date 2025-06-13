@@ -1,0 +1,286 @@
+@import '../../shared/theme/conf.scss';
+.pages-top {
+	position: relative;
+	width: 100%;
+	// float: right;
+	height: 51px;
+	// background: #eeeeee;
+	background: #bd262b;
+	// background: transparent;
+	border: none;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+	margin-bottom: 15px;
+}
+
+.avatar-wrap {
+	position: absolute;
+	top: 50%;
+	left: 96%;
+	//border-radius: 25px;
+	//background-color: #f09f0a;
+	transform: translate(0, -50%);
+	//padding: 9px 0;
+	// margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	width: 45px;
+	height: 45px;
+	padding-top: 9px;
+	// min-height: 50px;
+	@include transition(all .4s);
+	.avatar {
+		width: 45px;
+		height: 45px;
+		left: 50%;
+		//border-radius: 25px;
+		// background-color: #f09f0a;
+		overflow: hidden;
+		@include transition(all .4s);
+		img {
+			display: block;
+			margin-top: -10px;
+			width: 100%;
+			height: 50px;
+		}
+	}
+	.user-info-wrap {
+		//padding: 0px 13px;
+		padding-bottom: 5px;
+		// width: 170px;
+		// height: auto;
+		// @include transition(all .4s);
+	}
+	.user-name,
+	.user-post {
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.user-name {
+		// color: $sidebar-fonts-color;
+		color: $fonts-color;
+		font-size: $lg-text;
+		cursor: default;
+	}
+	.user-post {
+		color: $primary;
+		font-size: $sm-text;
+		margin-top: 5px;
+	}
+}
+
+.user {
+	position: absolute;
+	top: 30%;
+	left: 90%;
+	float: right;
+	text-align: right;
+	// width: 15%;
+	// transform: translate(0, -50%);
+	// @include center(40px, 40px);
+	// @include transition(all .2s);
+}
+.settings {
+	position: absolute;
+	top: 30%;
+	left: 88%;
+	text-align: right;
+	// width: 5%;
+}
+.userType {
+	position: absolute;
+	top: 25%;
+	left: 4%;
+	text-align: left;
+	width: 15%;
+	color: $fonts-color;
+	font-size: 14pt;
+	// transform: translate(0, -50%);
+	// @include center(40px, 40px);
+	// @include transition(all .2s);
+}
+.collapse-menu {
+	position: absolute;
+	top: 50%;
+	// left: 50px;
+	transform: translate(0, -50%);
+	// color: $sidebar-fonts-color;
+	color: #b0bec5;
+  background-color: #f2ce16;
+	font-size: 24px;
+	cursor: pointer;
+	@include center(40px, 40px);
+	@include transition(all .2s);
+	&:hover {
+		color: $primary;
+	}
+	.toggle-on {
+		transform: rotate(0);
+		@include transition(all .5s);
+	}
+	.toggle-off {
+		transform: rotate(-270deg);
+		@include transition(all .5s);
+	}
+}
+
+.search-group {
+	position: absolute;
+	top: 50%;
+	right: 170px;
+	transform: translate(0, -50%);
+	width: 340px;
+	background: $border-color;
+	border: 1px solid $border-color;
+	border-radius: 2px;
+	overflow: hidden;
+	.search-input {
+		width: 300px;
+		height: 40px;
+		background: transparent;
+		border: none;
+		outline: none;
+		color: $sidebar-fonts-color;
+		font-size: $sm-text;
+		text-indent: 1.5em;
+	}
+	.search-btn {
+		position: relative;
+		top: -1px;
+		right: 1px;
+		width: 30px;
+		height: 30px;
+		background: $primary;
+		border: 0;
+		border-radius: 50%;
+		outline: none;
+		line-height: 30px;
+		text-align: center;
+		color: $body-bg;
+		transform: scale(0);
+		transition: all .4s;
+		&:hover {
+			background: lighten($primary, 10%);
+			transform: scale(1);
+		}
+	}
+	.search-input:focus + .search-btn {
+		transform: scale(1);
+	}
+}
+
+.msg-tips-wrap {
+	display: flex;
+	flex-wrap: nowrap;
+	position: absolute;
+	top: 50%;
+	right: 60px;
+	transform: translate(0, -50%);
+	width: 100px;
+	height: 40px;
+	color: $sidebar-fonts-color;
+	@include transition(all .4s);
+}
+
+.msg-entrance {
+	position: relative;
+	width: 50px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	@include transition(all .4s);
+	color: $sidebar-fonts-color;
+	&:hover {
+		cursor: pointer;
+		color: $primary;
+	}
+	span.badge {
+		padding: 0;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		display: block;
+		width: 11px;
+		height: 11px;
+		background: $primary;
+		border: 2px solid $sidebar-bg;
+		border-radius: 50%;
+	}
+}
+
+@media (max-width: 414px) {
+	.avatar-wrap {
+		width: auto;
+		.avatar {
+			border-radius: 50px;
+		}
+		.user-info-wrap {
+			display: none;
+		}
+	}
+	.collapse-menu {
+		left: 100px;
+	}
+	.search-group {
+		display: none;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Dropdown Button */
+.dropbtn {
+	background-color: transparent;
+	color: #ffffff !important;
+	// padding: 16px;
+	font-size: 16px;
+	border: none;
+  }
+
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+	position: relative;
+	// display: inline-block;
+	display: inline-block;
+    float: right;
+    padding: 12px;
+  }
+
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #ffffff;
+	min-width: 170px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	right: 5px;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+  }
+
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {color: rgb(30, 30, 30);}
+
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {color: #3a3a3a;}

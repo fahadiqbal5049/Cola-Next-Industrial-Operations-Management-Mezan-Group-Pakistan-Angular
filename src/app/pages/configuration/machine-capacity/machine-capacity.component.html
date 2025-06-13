@@ -1,0 +1,201 @@
+<div class="container-area">
+  <div class="body-area">
+    <div class="nav d-flex">
+      <p class="nav-heading">Machine Capacity</p>
+      <button class="btn-cstm" (click)="openAddForm()">Add New</button>
+    </div>
+
+    <div class="dx-card grid-card">
+      <dx-data-grid id="gridContainer" [dataSource]="dataSource" [remoteOperations]="false" [columnWidth]=""
+        [allowColumnReordering]="true" [allowColumnResizing]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        (onExporting)="onExporting($event)">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+          [showNavigationButtons]="true"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+        <!-- <dxi-column dataField="AUG_MACHINE_SEQ_ID" caption="Machine ID" width="120"></dxi-column> -->
+        <!-- <dxi-column dataField="AUG_SKU_SEQ_ID" caption="SKU ID" width="100"></dxi-column> -->
+        <dxi-column dataField="MACHINE_NAME" caption="Machine Name" width="150"></dxi-column>
+        <dxi-column dataField="SKU_NAME" caption="Sku Name" width="150"></dxi-column>
+        <dxi-column dataField="SKU_DESCRIPTION" caption="Sku Description" width="150"></dxi-column>
+        <dxi-column dataField="HOURLY_CAPACITY_IN_BOTTLES" caption="Hourly Capacity(In Bottles)" width="210"
+          alignment="center"></dxi-column>
+        <dxi-column dataField="SHIFT_CAPACITY_IN_BOTTLES" caption="Shift Capacity(In Bottles)" width="210"
+          alignment="center"></dxi-column>
+        <dxi-column dataField="PACK_CAPACITY" caption="Pack Capacity" width="150" alignment="center"></dxi-column>
+
+
+        <dxi-column type="buttons" dataField="SEQ_ID" alignment="center" caption="Actions"
+          cellTemplate="actionsTemplate" [fixed]="true"></dxi-column>
+
+        <div *dxTemplate="let tag of 'actionsTemplate'">
+          <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+          <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+    </div>
+
+    <dx-popup title="Add Machine Detail" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+      [(visible)]="addPopUp">
+
+      <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onSubmit($event)">
+          <dx-form [formData]="formData" [disabled]="loading">
+
+            <dxi-item dataField="AUG_SKU_SEQ_ID" editorType="dxSelectBox" [editorOptions]="{ items: dataSource, searchEnabled: false, displayExpr: 'AUG_SKU_SEQ_ID',
+              valueExpr: 'SEQ_ID', stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+              <dxi-validation-rule type="required" message="Sku is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="AUG_MACHINE_SEQ_ID" editorType="dxTextBox" [editorOptions]="{ items: dataSource, searchEnabled: true, displayExpr: 'AUG_MACHINE_SEQ_ID',
+            valueExpr: 'SEQ_ID',stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Machine is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="HOURLY_CAPACITY_IN_BOTTLES" editorType="dxNumberBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Hourly Capacity is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="SHIFT_CAPACITY_IN_BOTTLES" editorType="dxNumberBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Shift Capacity is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+            [editorOptions]="{
+              items: [true, false],
+              stylingMode: 'outlined',
+              labelMode: 'floating',
+              placeholder: ''
+            }">
+            <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+            <dxi-item dataField="CREATED_BY" editorType="dxNumberBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Created by is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <!-- <dxi-item dataField="MACHINE_NAME" editorType="dxTextBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' , disabled: true }">
+              <dxi-validation-rule type="required" message="Machine Name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="MACHINE_DESCRIPTION" editorType="dxTextBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', disabled: true }">
+              <dxi-validation-rule type="required" message="Machine Description is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="SKU_NAME" editorType="dxSelectBox"
+              [editorOptions]="{ items: sku, searchEnabled: false, displayExpr: 'SKU_NAME',
+              valueExpr: 'SEQ_ID', stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Sku name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="SKU_DESCRIPTION" editorType="dxTextBox"
+              [editorOptions]="{ items: sku, searchEnabled: false, displayExpr: 'SKU_DESCRIPTION',
+              valueExpr: 'SEQ_ID', stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Sku name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+
+            <dxi-item dataField="PACK_CAPACITY" editorType="dxNumberBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Pack Capacity is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item> -->
+
+
+            <dxi-item itemType="button">
+              <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+              </dxo-button-options>
+            </dxi-item>
+
+
+          </dx-form>
+        </form>
+
+      </div>
+    </dx-popup>
+
+    <dx-popup title="Edit Machine Detail" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+      [(visible)]="editPopUp">
+
+      <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onUpdate($event)">
+          <dx-form [formData]="formData" [disabled]="loading">
+
+            <dxi-item dataField="SEQ_ID" editorType="dxTextBox" [editorOptions]="{  searchEnabled: false, displayExpr: 'SEQ_ID',
+              valueExpr: 'SEQ_ID',stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Sku is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="AUG_SKU_SEQ_ID" editorType="dxTextBox" [editorOptions]="{  searchEnabled: false, displayExpr: 'AUG_SKU_SEQ_ID',
+              valueExpr: 'AUG_SKU_SEQ_ID',stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Sku is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="AUG_MACHINE_SEQ_ID" editorType="dxTextBox" [editorOptions]="{  searchEnabled: false, displayExpr: 'AUG_MACHINE_SEQ_ID',
+            valueExpr: 'AUG_SKU_SEQ_ID', stylingMode: 'outlined', labelMode: 'floating'}">
+              <dxi-validation-rule type="required" message="Machine is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="HOURLY_CAPACITY_IN_BOTTLES" editorType="dxTextBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Hourly Capacity is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="SHIFT_CAPACITY_IN_BOTTLES" editorType="dxTextBox"
+              [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Shift Capacity is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+        [editorOptions]="{
+          items: [1, 0],
+          stylingMode: 'outlined',
+          labelMode: 'floating',
+          placeholder: ''
+        }">
+        <dxi-validation-rule type="required" message="Status is required"></dxi-validation-rule>
+        <dxo-label [visible]="false"></dxo-label>
+      </dxi-item>
+
+            <dxi-item itemType="button">
+              <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+              </dxo-button-options>
+            </dxi-item>
+
+
+          </dx-form>
+        </form>
+
+      </div>
+    </dx-popup>
+
+  </div>
+</div>

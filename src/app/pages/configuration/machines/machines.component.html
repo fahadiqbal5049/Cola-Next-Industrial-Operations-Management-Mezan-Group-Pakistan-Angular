@@ -1,0 +1,95 @@
+<div class="container-area">
+  <div class="body-area">
+    <div class="nav d-flex">
+      <p class="nav-heading">MACHINES</p>
+      <button class="btn-cstm" (click)="openAddForm()">Add New</button>
+    </div>
+
+    <div class="dx-card grid-card">
+      <dx-data-grid id="gridContainer" [dataSource]="dataSource" [remoteOperations]="false" [columnWidth]=""
+        [allowColumnReordering]="true" [allowColumnResizing]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        (onExporting)="onExporting($event)">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+          [showNavigationButtons]="true"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="MACHINE_NAME" caption="Machine Name"></dxi-column>
+        <dxi-column dataField="MACHINE_DESCRIPTION" caption="Description"></dxi-column>
+
+        <dxi-column type="buttons" dataField="SEQ_ID" alignment="center" caption="Actions"
+          cellTemplate="actionsTemplate" [fixed]="true"></dxi-column>
+
+        <div *dxTemplate="let tag of 'actionsTemplate'">
+          <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+          <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+    </div>
+
+    <dx-popup title="Add MACHINE" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+      [(visible)]="addPopUp">
+
+      <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onSubmit($event)">
+          <dx-form [formData]="formData" [disabled]="loading">
+
+            <dxi-item dataField="MACHINE_NAME" editorType="dxTextBox"
+              [editorOptions]="{stylingMode: 'outlined', labelMode: 'floating'}">
+              <dxi-validation-rule type="required" message="Machine Name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="MACHINE_DESCRIPTION" editorType="dxTextBox"
+              [editorOptions]="{stylingMode: 'outlined', labelMode: 'floating'}">
+              <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item itemType="button">
+              <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+              </dxo-button-options>
+            </dxi-item>
+
+          </dx-form>
+        </form>
+      </div>
+    </dx-popup>
+
+    <dx-popup title="Edit Machine" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+      [(visible)]="editPopUp">
+
+      <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onUpdate($event)">
+          <dx-form [formData]="formData" [disabled]="loading">
+
+            <dxi-item dataField="MACHINE_NAME" editorType="dxTextBox"
+              [editorOptions]="{stylingMode: 'outlined', labelMode: 'floating'}">
+              <dxi-validation-rule type="required" message="Machine Name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="MACHINE_DESCRIPTION" editorType="dxTextBox"
+              [editorOptions]="{stylingMode: 'outlined', labelMode: 'floating'}">
+              <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item itemType="button">
+              <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+              </dxo-button-options>
+            </dxi-item>
+
+          </dx-form>
+        </form>
+      </div>
+    </dx-popup>
+  </div>
+</div>

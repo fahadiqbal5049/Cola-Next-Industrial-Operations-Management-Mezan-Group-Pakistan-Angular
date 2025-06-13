@@ -1,0 +1,26 @@
+<ul class="menu-wrap animated fadeIn">
+    <li *ngFor="let item of menuInfo;let i = index" class="menu-item" [ngClass]="{'item-toggle-on':item.toggle === 'on'}">
+
+      <a *ngIf="item.path && checkIfShow(item)" class="menu-link" (click)="_selectItem(item,i)"
+        [ngClass]="i==selectedTabIndex && item.title == selectedComponentTitle?'active':''">
+        <div class="placeholder">
+          <i class="m-icon"><img class="img" [src]="'../../../../assets/MenuIcon/'+item.icon"></i>
+        </div>
+        <span style="margin-left: -7px;" class="text">{{item.title}}</span>
+      </a>
+
+      <a class="menu-link" *ngIf="!item.path" (click)="isToggleOn(item)">
+        <div class="placeholder">
+          <i class="m-icon"><img class="img" [src]="'../../../../assets/MenuIcon/'+item.icon"></i>
+        </div>
+        <span style="margin-left: -7px;" class="text">{{item.title}}</span>
+        <span class="right-arrow-span">
+          <img class="right-img" src="../../../../assets/MenuIcon/button.png">
+        </span>
+      </a>
+
+      <div class="item-children" [@collapse]="item.toggle" *ngIf="item.children">
+        <app-menu style="border-bottom: 1px solid black" [menuInfo]="item.children"></app-menu>
+      </div>
+    </li>
+  </ul>

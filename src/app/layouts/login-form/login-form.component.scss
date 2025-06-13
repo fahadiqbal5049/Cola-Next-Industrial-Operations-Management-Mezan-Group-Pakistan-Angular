@@ -1,0 +1,154 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.area-container {
+    // background: #d88313;
+    // background: #3eafff;
+    background-image: url(https://img.freepik.com/free-photo/cold-can-stands-against-red-droplets-hinting-frosty-touch_91128-4494.jpg?t=st=1741081560~exp=1741085160~hmac=83c6c38c87b80d34dae9722460b1fdec91dbac02064e578264b9ca1e27245c2f&w=1480);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+
+
+    .login-container {
+        display: grid;
+        // grid-template-columns: auto 400px;
+
+        // width: calc(100% - 300px);
+        // height: calc(100% - 200px);
+
+        width: 400px;
+        height: 400px;
+        box-shadow: 0px 0px 20px #000000;
+        // background: #96ccf4;
+        // border-radius: 20px;
+        // overflow: hidden;
+        margin-left: 150px;
+
+        .login-detail-container {
+            background: transparent;
+            // background:repeating-linear-gradient(
+            //     45deg,
+            //     rgba(0, 0, 0, 0.2) 0px,
+            //     rgba(0, 0, 0, 0.1) 0px,
+            //     rgba(0, 0, 0, 0.2) 3px,
+            //     rgba(0, 0, 0, 0.3) 2px),
+            //   transparent;
+            padding: 20px;
+            // filter: blur(1px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+
+            p {
+                margin: 0px;
+                font-size: 30px;
+                font-style: italic;
+                font-weight: 500;
+                color:#e30613;
+                text-shadow: 1px 2px 1px #4290c9;
+            }
+            .img-area{
+                height: calc(100% - 70px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img {
+
+                    width: auto;
+                    height: 150px;
+
+                }
+            }
+
+
+        }
+
+        .login-form-container {
+            // background: white;
+            background: #bd262b;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .login-area {
+                // background: white;
+                background: #bd262b;
+                width: 100%;
+
+                .img-area {
+                    height: 60px;
+                    display: flex;
+                    justify-content: center;
+                    // flex-direction: column;
+                    // border-bottom: 1px solid #791195;
+                    width: 100%;
+
+                    img {
+                        height: 60px;
+                    }
+                }
+
+                .form-area {
+                    padding: 20px;
+
+                    form {
+                        display: flex;
+                        flex-direction: column;
+
+                        input {
+                            border: 1px solid #3eafff;
+                            outline: none;
+                            height: 40px;
+                            margin-bottom: 15px;
+                            padding: 5px;
+                            background: white !important;
+                            border-radius: 5px;
+                        }
+
+                        input:focus {
+                            color: #3eafff !important;
+                            background: white !important;
+
+                        }
+
+                        .login-btn {
+                            background: #3eafff !important;
+                            color: white;
+                        }
+                    }
+
+                    .powered-by {
+                        margin-top: 30px;
+                        display: flex;
+                        justify-content: right;
+                        align-items: baseline;
+
+                        p {
+                            margin: 0px;
+                            font-size: 14px;
+                            font-weight: bold;
+                            width: max-content;
+                            margin-right: 10px;
+                        }
+
+                        img {
+                            width: auto;
+                            height: 30px;
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+}

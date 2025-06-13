@@ -1,0 +1,13 @@
+@import '../../../shared/theme/icons.scss';
+@import '../../../shared/theme/dx-style.scss';
+@import '../../../shared/custom-styles/cstm-workorder.scss';
+
+::ng-deep #ShowPass {
+    float: left;
+    background-color: #f44336;
+    color: white;
+
+    .dx-icon {
+        color: white !important;
+    }
+}

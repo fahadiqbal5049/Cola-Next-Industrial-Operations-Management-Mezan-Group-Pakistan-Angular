@@ -1,0 +1,168 @@
+<div class="container-area">
+  <div class="body-area">
+    <div class="nav d-flex">
+      <p class="nav-heading">SKU Recipe</p>
+      <div class="right-side">
+        <dx-select-box [items]="recipeNames" [inputAttr]="{ 'aria-label': 'Recipe Name' }" [value]="selectedRecipeName"
+          (onValueChanged)="selectRecipeName($event)" displayExpr="RECIPE_NAME" valueExpr="RECIPE_NAME"
+          placeholder="Select Recipe Name..."></dx-select-box>
+      </div>
+      <button class="btn-cstm" (click)="openAddForm()">Add New</button>
+    </div>
+
+    <div class="dx-card grid-card">
+      <dx-data-grid id="gridContainer" [dataSource]="filteredDataSource" [remoteOperations]="false" [columnWidth]=""
+        [allowColumnReordering]="true" [allowColumnResizing]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        (onExporting)="onExporting($event)">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]" [showInfo]="true"
+          [showNavigationButtons]="true"></dxo-pager>
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="false"></dxo-group-panel>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-scrolling columnRenderingMode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="RECIPE_NAME" caption="Recipe Name"></dxi-column>
+        <dxi-column dataField="SKU_NAME" caption="Sku Name"></dxi-column>
+        <dxi-column dataField="RECIPE_DESCRIPTION" caption="Recipe Description"></dxi-column>
+
+        <dxi-column type="buttons" dataField="SEQ_ID" alignment="center" caption="Actions"
+          cellTemplate="actionsTemplate" [fixed]="true"></dxi-column>
+
+        <div *dxTemplate="let tag of 'actionsTemplate'">
+          <dx-button hint="Edit" icon="edit" id="editButton" (onClick)="onEdit(tag.data)"></dx-button>
+          <dx-button hint="Delete" icon="trash" id="deleteButton" (onClick)="onDelete(tag.data)"></dx-button>
+        </div>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+    </div>
+
+    <dx-popup title="Add SKU Recipe" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+      [(visible)]="addPopUp">
+
+      <div *dxTemplate="let data of 'content'">
+        <form class="type-form" (submit)="onSubmit($event)">
+          <dx-form [formData]="formData" [disabled]="loading">
+
+            <dxi-item dataField="RECIPE_NAME" editorType="dxTextBox" [editorOptions]="{ items: dataSource, searchEnabled: false, displayExpr: 'RECIPE_NAME',
+              valueExpr: 'RECIPE_NAME', stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="AUG_SKU_SEQ_ID" editorType="dxSelectBox"
+              [editorOptions]="{ items: dataSource, searchEnabled: true, displayExpr: 'SKU_NAME', valueExpr: 'SEQ_ID',stylingMode: 'outlined', labelMode: 'floating', placeholder:'' }">
+              <dxi-validation-rule type="required" message="ID is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="RECIPE_DESCRIPTION" editorType="dxTextBox"
+              [editorOptions]="{items: dataSource, stylingMode: 'outlined', labelMode: 'floating' }">
+              <dxi-validation-rule type="required" message="Description is required"></dxi-validation-rule>
+              <dxo-label [visible]="false"></dxo-label>
+            </dxi-item>
+
+            <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+            [editorOptions]="{
+              items: [true, false],
+              stylingMode: 'outlined',
+              labelMode: 'floating' ,
+              placeholder: ''
+            }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+          <!-- <dxi-item dataField="PACK_CAPACITY" editorType="dxNumberBox"
+          [editorOptions]="{items: dataSource, stylingMode: 'outlined', labelMode: 'floating' }">
+          <dxi-validation-rule type="required" message="PACK CAPACITY is required"></dxi-validation-rule>
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-item> -->
+
+        <!-- <dxi-item dataField="CREATED_BY" editorType="dxTextBox"
+        [editorOptions]="{items: dataSource, stylingMode: 'outlined', labelMode: 'floating' }">
+        <dxi-validation-rule type="required" message="CREATED BY is required"></dxi-validation-rule>
+        <dxo-label [visible]="false"></dxo-label>
+      </dxi-item> -->
+
+
+            <dxi-item itemType="button">
+              <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+              </dxo-button-options>
+            </dxi-item>
+
+
+          </dx-form>
+        </form>
+
+      </div>
+    </dx-popup>
+
+    <dx-popup title="Edit SKU Recipe" height="auto" [maxWidth]="500" [resizeEnabled]="true" [showCloseButton]="true"
+    [(visible)]="editPopUp">
+
+    <div *dxTemplate="let data of 'content'">
+      <form class="type-form" (submit)="onUpdate($event)">
+        <dx-form [formData]="formData" [disabled]="loading">
+
+
+          <dxi-item dataField="SEQ_ID" editorType="dxNumberBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+            <dxi-validation-rule type="required" message="SEQ ID is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item dataField="AUG_SKU_SEQ_ID" editorType="dxNumberBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+            <dxi-validation-rule type="required" message="AUG SKU SEQ ID is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item dataField="RECIPE_NAME" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+            <dxi-validation-rule type="required" message="Recipe Name is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item dataField="RECIPE_DESCRIPTION" editorType="dxTextBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+            <dxi-validation-rule type="required" message="Recipe Description is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item dataField="ACTIVE" editorType="dxSelectBox"
+            [editorOptions]="{
+              items: [true, false],
+              stylingMode: 'outlined',
+              labelMode: 'floating' ,
+              placeholder: ''
+            }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item dataField="CREATED_BY" editorType="dxNumberBox"
+            [editorOptions]="{ stylingMode: 'outlined', labelMode: 'floating', placeholder: '' }">
+            <dxi-validation-rule type="required" message="Created By is required"></dxi-validation-rule>
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+
+
+          <dxi-item itemType="button">
+            <dxo-button-options type="default" [useSubmitBehavior]="true" text="Submit">
+            </dxo-button-options>
+          </dxi-item>
+
+        </dx-form>
+      </form>
+    </div>
+  </dx-popup>
+
+  </div>
+</div>

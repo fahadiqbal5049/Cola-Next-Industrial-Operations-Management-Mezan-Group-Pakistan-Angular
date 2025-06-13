@@ -1,0 +1,26 @@
+// @import '../../custom-styles/badge-mixin.scss'; // Adjust the path as needed
+@import '../../custom-styles/cstm-card-colors.scss'; // Adjust the path as needed
+
+.badge{
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+
+  .straight-badge {
+    width: 23px;
+    height: 23px;
+    // background: $badge-color;
+    border-radius: 5px;
+    display: inline-block;
+  }
+
+  .rotate-badge {
+    width: 23px;
+    height: 23px;
+    // background: $badge-color;
+    display: inline-block;
+    border-radius: 5px;
+    margin-left: -23px;
+    transform: rotate(45deg);
+  }
+}
